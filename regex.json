@@ -1,0 +1,7 @@
+{
+  "regex": [
+    "ghp_[[:graph:]]+",
+    "glpat-[[:graph:]]+",
+    "(?:ABC)(testg_[a-z]+)(?:BBB)([a-z]*)"
+  ]
+}
