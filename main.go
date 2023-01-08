@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"hidepass/pkg/hidepass"
 	"log"
 	"os"
+
+	"github.com/bekcpear/hidepass/pkg/hidepass"
 )
 
 func main() {
