@@ -8,17 +8,21 @@ import (
 	"strings"
 )
 
-type Config struct {
+type config struct {
 	Regex []string `json:"regex"`
 }
 
-var conf = new(Config)
+var re []*regexp.Regexp
 
 // SetConfig will set the global conf variable with content c
 func SetConfig(c []byte) error {
+	var conf = new(config)
 	err := json.Unmarshal(c, conf)
 	if err != nil {
 		return err
+	}
+	for _, expr := range conf.Regex {
+		re = append(re, regexp.MustCompile(expr))
 	}
 
 	return nil
@@ -40,10 +44,9 @@ func ReadConfig(path string) error {
 // make non-capture group working
 func Hide(str string) string {
 	rStr := "**P.A.S.S.P.H.R.A.S.E**"
-	for _, expr := range conf.Regex {
-		r := regexp.MustCompile(expr)
+	for _, r := range re {
 		if r.MatchString(rStr) {
-			log.Printf("regex expression '%s' is ignored.", expr)
+			log.Printf("regex expression '%s' is ignored.", r.String())
 			continue
 		}
 		sms := r.FindAllStringSubmatch(str, -1)
