@@ -2,7 +2,6 @@ package hidepass
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"regexp"
@@ -42,14 +41,12 @@ func ReadConfig(path string) error {
 func Hide(str string) string {
 	rStr := "**P.A.S.S.P.H.R.A.S.E**"
 	for _, expr := range conf.Regex {
-		log.Printf("compile %s ...\n", expr)
 		r := regexp.MustCompile(expr)
 		if r.MatchString(rStr) {
 			log.Printf("regex expression '%s' is ignored.", expr)
 			continue
 		}
 		sms := r.FindAllStringSubmatch(str, -1)
-		fmt.Printf("%#v\n", sms)
 		for _, sm := range sms {
 			i := 1
 			if len(sm) < 2 {
