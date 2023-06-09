@@ -5,17 +5,17 @@ import (
 	"log"
 	"os"
 
-	"github.com/bekcpear/hidepass/pkg/hidepass"
+	"oss.ac/hidapp/pkg/hidapp"
 )
 
 func main() {
-	config := "./regex.json"
+	configFile := "./regex.json"
 	args := os.Args[1:]
 	var str string
 	for i := 0; i < len(args); i++ {
 		switch args[i] {
 		case "-c":
-			config = args[i+1]
+			configFile = args[i+1]
 			args[i+1] = ""
 		case "":
 			continue
@@ -32,10 +32,15 @@ func main() {
 		log.Fatalln("no input string")
 	}
 
-	err := hidepass.ReadConfig(config)
+	fd, err := os.Open(configFile)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Println(hidepass.Hide(str))
+	pp, err := hidapp.NewProcessorFrom(fd)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(pp.Process(str))
 }

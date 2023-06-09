@@ -1,3 +1,3 @@
-module github.com/bekcpear/hidepass
+module oss.ac/hidapp
 
 go 1.19
